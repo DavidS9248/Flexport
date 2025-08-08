@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const vehiculoController = require('../controllers/vehiculoController');
+const ctrl = require('../controllers/vehiculoController');
 
+router.get('/',     ctrl.listar);       
+router.get('/:id',  ctrl.obtener);       
+router.post('/',    ctrl.crear);         
+router.put('/:id',  ctrl.actualizar);   
+router.delete('/:id', ctrl.eliminar);    
+router.post('/:id/bid', ctrl.pujar);
 
-router.get('/', vehiculoController.listarVehiculos);
-router.post('/', vehiculoController.crearVehiculo);
-
-
-router.put('/:id', vehiculoController.actualizarVehiculo);
-router.delete('/:id', vehiculoController.eliminarVehiculo);
-
-module.exports = router;
+module.exports = router; 

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pujar en Subasta</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+    h1 { margin: 0 0 12px; }
+    .grid { display: grid; gap: 12px; }
+    .card { padding: 12px; border-radius: 10px; background: rgba(0,0,0,.04); display: grid; gap: 8px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    input, button { padding: 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,.15); }
+    button { cursor: pointer; }
+    .muted { opacity: .75; }
+    .ok { color: #157347; }
+    .err { color: #b02a37; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Subasta: Pujar</h1>
+    <p class="muted">Selecciona un vehículo y realiza tu oferta.</p>
+
+    <div id="list" class="grid"></div>
+  </div>
+
+  <script>
+    const API = 'http://localhost:3000/vehiculos';
+
+    async function fetchVehiculos() {
+      const res = await fetch(API);
+      return res.json();
+    }
+
+    function render(vehiculos) {
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      vehiculos.forEach(v => {
+        const minimo = (v.ofertaActual && v.ofertaActual > 0)
+          ? v.ofertaActual + (v.incrementoMinimo ?? 100)
+          : Math.max(v.precioInicial ?? 0, 0);
+
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <div><strong>${v.marca} ${v.modelo}</strong> (${v.anio})</div>
+          <div class="muted">Precio base: $${v.precioInicial ?? 0}</div>
+          <div class="muted">Oferta actual: $${v.ofertaActual ?? 0} ${v.postorActual ? `(postor: ${v.postorActual})` : ''}</div>
+          <div class="muted">Incremento mínimo: $${v.incrementoMinimo ?? 100}</div>
+          <div class="row">
+            <input type="text" placeholder="Tu nombre" class="postor" />
+            <input type="number" min="${minimo}" step="1" value="${minimo}" class="monto" />
+            <button class="btn-pujar" data-id="${v.id || v._id}">Pujar</button>
+            <span class="status muted"></span>
+          </div>
+        `;
+        list.appendChild(div);
+
+        const btn = div.querySelector('.btn-pujar');
+        const montoEl = div.querySelector('.monto');
+        const postorEl = div.querySelector('.postor');
+        const status = div.querySelector('.status');
+
+        btn.addEventListener('click', async () => {
+          status.textContent = '';
+          const monto = Number(montoEl.value);
+          const postor = postorEl.value.trim();
+
+          if (!Number.isFinite(monto) || monto <= 0) {
+            status.textContent = 'Monto inválido';
+            status.className = 'status err';
+            return;
+          }
+          try {
+            const res = await fetch(`${API}/${btn.dataset.id}/bid`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ monto, postor })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || data.mensaje || 'Error');
+            status.textContent = 'Oferta aceptada';
+            status.className = 'status ok';
+            
+            const nuevos = await fetchVehiculos();
+            render(nuevos);
+          } catch (e) {
+            status.textContent = e.message.includes('Oferta muy baja') ? e.message : 'No se pudo pujar';
+            status.className = 'status err';
+          }
+        });
+      });
+
+      if (vehiculos.length === 0) {
+        list.innerHTML = '<div class="muted">No hay vehículos disponibles.</div>';
+      }
+    }
+
+    (async function init() {
+      const vehiculos = await fetchVehiculos();
+      render(vehiculos);
+    })();
+  </script>
+</body>
+</html>

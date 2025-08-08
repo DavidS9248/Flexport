@@ -1,48 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Flexport Subastas</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Subasta de Vehículos</title>
+  <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
+  <div class="container">
+    <h1>Subasta de Vehículos</h1>
 
-  <header>
-    <h1>🚗 Flexport Subastas</h1>
-  </header>
+    <form id="vehiculoForm" class="card">
+      <div class="grid">
+        <input name="marca" placeholder="Marca" required />
+        <input name="modelo" placeholder="Modelo" required />
+        <input name="anio" type="number" placeholder="Año" required />
+        <input name="precioInicial" type="number" placeholder="Precio inicial" required />
+        <input name="imagenUrl" placeholder="URL imagen (opcional)" />
+        <input name="fechaSubasta" type="datetime-local" placeholder="Fecha subasta (opcional)" />
+      </div>
+      <div class="actions">
+        <button type="submit">Crear</button>
+        <button type="button" id="cancelarEdicion" class="secondary" hidden>Cancelar edición</button>
+      </div>
+      <input type="hidden" id="vehiculoId"/>
+    </form>
 
-  <main>
-   
-    <section id="imagen-corolla">
-      <h2>Vehiculos en stock</h2>
-      <img src="assets/corolla.jpg" alt="Toyota Corolla en subasta" width="400">
-    </section>
+    <h2>Listado</h2>
+    <ul id="lista" class="list"></ul>
+  </div>
 
- 
-    <section id="formulario-agregar">
-      <h2>Agregar vehículo</h2>
-      <form id="form-vehiculo">
-        <input type="text" id="marca" placeholder="Marca" required>
-        <input type="text" id="modelo" placeholder="Modelo" required>
-        <input type="number" id="anio" placeholder="Año" required>
-        <input type="number" id="precio" placeholder="Precio Inicial" required>
-
-        <label for="imagen">Selecciona una imagen local:</label>
-        <select id="imagen">
-          <option value="assets/corolla.jpg">Toyota Corolla</option>
-        </select>
-
-        <button type="submit">Agregar</button>
-      </form>
-    </section>
-
-   
-    <section id="vehiculos-container">
-      <h2>Vehículos en subasta</h2>
-      <div id="lista-vehiculos"></div>
-    </section>
-  </main>
-
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
