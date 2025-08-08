@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Flexport Subastas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>🚗 Flexport Subastas</h1>
+  </header>
+
+  <main>
+   
+    <section id="imagen-corolla">
+      <h2>Vehiculos en stock</h2>
+      <img src="assets/corolla.jpg" alt="Toyota Corolla en subasta" width="400">
+    </section>
+
+ 
+    <section id="formulario-agregar">
+      <h2>Agregar vehículo</h2>
+      <form id="form-vehiculo">
+        <input type="text" id="marca" placeholder="Marca" required>
+        <input type="text" id="modelo" placeholder="Modelo" required>
+        <input type="number" id="anio" placeholder="Año" required>
+        <input type="number" id="precio" placeholder="Precio Inicial" required>
+
+        <label for="imagen">Selecciona una imagen local:</label>
+        <select id="imagen">
+          <option value="assets/corolla.jpg">Toyota Corolla</option>
+        </select>
+
+        <button type="submit">Agregar</button>
+      </form>
+    </section>
+
+   
+    <section id="vehiculos-container">
+      <h2>Vehículos en subasta</h2>
+      <div id="lista-vehiculos"></div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
