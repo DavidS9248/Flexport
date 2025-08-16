@@ -3,13 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Subasta de Vehículos</title>
+  <title>Flexport Logistics - Subasta de Vehículos</title>
   <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
-  <div class="container">
-    <h1>Subasta de Vehículos</h1>
 
+
+  <header class="site">
+    <div class="inner">
+      <img src="./assets/Flexport Logo.jpg" alt="Logo Flexport" class="brand"/>
+      <div class="text-group">
+        <h1>Flexport Logistics</h1>
+        <p>Plataforma de subastas de vehículos</p>
+      </div>
+      <div class="actions">
+        <a href="./cliente.html" class="btn primary">Área Cliente</a>
+      </div>
+    </div>
+  </header>
+
+ 
+  <section class="hero">
+    <div class="inner">
+      <h2>Subasta de Vehículos</h2>
+      <p>Registra nuevos vehículos, fija precios iniciales y gestiona tus subastas fácilmente.</p>
+      <div class="cta">
+        <a href="#formulario" class="btn primary">Crear Subasta</a>
+        <a href="#listado" class="btn secondary">Ver Listado</a>
+      </div>
+    </div>
+  </section>
+
+ 
+  <main class="container">
+
+    
+    <h2 id="formulario">Crear/Editar Vehículo</h2>
     <form id="vehiculoForm" class="card">
       <div class="grid">
         <input name="marca" placeholder="Marca" required />
@@ -20,15 +49,27 @@
         <input name="fechaSubasta" type="datetime-local" placeholder="Fecha subasta (opcional)" />
       </div>
       <div class="actions">
-        <button type="submit">Crear</button>
-        <button type="button" id="cancelarEdicion" class="secondary" hidden>Cancelar edición</button>
+        <button type="submit" class="btn primary">Crear</button>
+        <button type="button" id="cancelarEdicion" class="btn secondary" hidden>Cancelar edición</button>
       </div>
       <input type="hidden" id="vehiculoId"/>
     </form>
 
-    <h2>Listado</h2>
+    
+    <h2 id="listado">Listado de Vehículos en Subasta</h2>
     <ul id="lista" class="list"></ul>
-  </div>
+
+  </main>
+
+  
+  <footer class="site">
+    <div class="inner">
+      <p>&copy; 2025 Flexport Logistics. Todos los derechos reservados.</p>
+      <nav>
+      
+      </nav>
+    </div>
+  </footer>
 
   <script src="./script.js"></script>
 </body>
