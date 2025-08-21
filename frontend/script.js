@@ -1,4 +1,7 @@
-const API = 'http://localhost:3000/vehiculos';
+const PROD_API = 'https://flexport.onrender.com/vehiculos';  
+const DEV_API  = 'http://localhost:3000/vehiculos';         
+const isLocal  = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+const API = isLocal ? DEV_API : PROD_API;
 
 const form = document.getElementById('vehiculoForm');
 const lista = document.getElementById('lista');
